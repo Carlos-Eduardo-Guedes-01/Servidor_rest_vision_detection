@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './style.modules.css';
 
 class WebcamVideoProcessing extends Component {
     constructor(props) {
@@ -28,7 +29,11 @@ class WebcamVideoProcessing extends Component {
                 console.error('Error accessing webcam:', error);
             });
     }
-
+    stopWebcam() {
+        // Redirecionar para a página inicial e recarregar a página
+        window.location.href = '/';
+    }
+    
     captureFrames() {
         const videoTrack = this.webcamStream.getVideoTracks()[0];
         const imageCapture = new ImageCapture(videoTrack);
@@ -114,25 +119,19 @@ class WebcamVideoProcessing extends Component {
         const { error } = this.state;
 
         return (
-            <div style={{ position: 'relative' }}>
-                <video ref={this.videoRef} autoPlay playsInline muted></video>
-                <canvas
-                    ref={this.canvasRef}
-                    style={{ display: 'block', position: 'absolute', top: 0, left: 0 }}
-                ></canvas>
-                {error && <div>Error: {error.message}</div>}
-                <div>
-                    Detections:
-                    <ul>
-                        {this.state.detections.map((detection, index) => (
-                            <li key={index}>{JSON.stringify(detection)}</li>
-                        ))}
-                    </ul>
-                </div>
-                <div>
-                    <button onClick={() => this.stopWebcam()}>Parar</button>
-                </div>
-            </div>
+            <div className='Geral'>
+    <div style={{padding:'10px'}}>
+    <button onClick={this.stopWebcam.bind(this)} className='Botao'>
+        Parar
+    </button>
+    </div>
+    <div className='video-container'>
+        <video ref={this.videoRef} autoPlay playsInline muted className='video'></video>
+        <canvas ref={this.canvasRef} className='video'></canvas>
+    </div>
+    {error && <div>Error: {error.message}</div>}
+    
+</div>
         );
     }
 }

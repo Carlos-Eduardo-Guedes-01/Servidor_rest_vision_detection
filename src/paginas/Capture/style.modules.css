@@ -1,0 +1,38 @@
+body{
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+.Geral{
+    width: 90vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: conter
+    ;
+}
+.video-container{
+    width: 90vw;
+    height: 90vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.video{
+    position: absolute;
+    margin-top: 20px;
+    height: 70vh;
+    border: 3px solid black;
+}
+.Botao{
+    background-color: white;
+    border: 3px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+.Botao:hover{
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
+}
