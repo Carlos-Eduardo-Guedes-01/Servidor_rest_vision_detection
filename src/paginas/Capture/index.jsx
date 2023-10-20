@@ -47,6 +47,7 @@ class WebcamVideoProcessing extends Component {
                             frameBlob.name = 'frame.jpg';
                             this.sendFrameToAPI(frameBlob);
                         }, 'image/jpeg');
+                        setTimeout(captureFrame, 50);
                     })
                     .catch(error => {
                         console.error('Error capturing frame:', error);
@@ -77,16 +78,48 @@ class WebcamVideoProcessing extends Component {
     }
 
     drawBoundingBoxes(detections) {
-        // Your code for drawing bounding boxes remains the same.
+        const canvas = this.canvasRef.current;
+        const context = canvas.getContext('2d');
+
+        // Limpe o canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Defina o estilo das bounding boxes
+        context.strokeStyle = 'red'; // Cor da bounding box
+        context.lineWidth = 2; // Largura da linha da bounding box
+
+        // Obtém uma referência para o elemento de vídeo
+        const video = this.videoRef.current;
+
+        // Calcula a proporção entre as dimensões do vídeo e o tamanho do canvas
+        const widthRatio = video.videoWidth / video.clientWidth;
+        const heightRatio = video.videoHeight / video.clientHeight;
+
+        // Itera sobre as detecções e cria elementos de bounding box
+        detections.forEach(detection => {
+            const { xmin, ymin, width, height } = detection;
+
+            // Calcula as posições e dimensões relativas à imagem
+            const absoluteX = xmin / widthRatio;
+            const absoluteY = ymin / heightRatio;
+            const absoluteWidth = width / widthRatio;
+            const absoluteHeight = height / heightRatio;
+
+            // Desenhe a bounding box
+            context.strokeRect(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
+        });
     }
 
     render() {
         const { error } = this.state;
 
         return (
-            <div>
+            <div style={{ position: 'relative' }}>
                 <video ref={this.videoRef} autoPlay playsInline muted></video>
-                <canvas ref={this.canvasRef} style={{ display: 'block' }}></canvas>
+                <canvas
+                    ref={this.canvasRef}
+                    style={{ display: 'block', position: 'absolute', top: 0, left: 0 }}
+                ></canvas>
                 {error && <div>Error: {error.message}</div>}
                 <div>
                     Detections:
