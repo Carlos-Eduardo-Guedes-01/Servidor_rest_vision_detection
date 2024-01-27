@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './style.modules.css';
+import RodaPe from '../../components/Footer';
 
 class WebcamVideoProcessing extends Component {
     constructor(props) {
@@ -85,53 +86,50 @@ class WebcamVideoProcessing extends Component {
     drawBoundingBoxes(detections) {
         const canvas = this.canvasRef.current;
         const context = canvas.getContext('2d');
-
+    
         // Limpe o canvas
         context.clearRect(0, 0, canvas.width, canvas.height);
-
+    
         // Defina o estilo das bounding boxes
         context.strokeStyle = 'red'; // Cor da bounding box
         context.lineWidth = 2; // Largura da linha da bounding box
-
-        // Obtém uma referência para o elemento de vídeo
-        const video = this.videoRef.current;
-
-        // Calcula a proporção entre as dimensões do vídeo e o tamanho do canvas
-        const widthRatio = video.videoWidth / video.clientWidth;
-        const heightRatio = video.videoHeight / video.clientHeight;
-
+    
         // Itera sobre as detecções e cria elementos de bounding box
         detections.forEach(detection => {
             const { xmin, ymin, width, height } = detection;
-
-            // Calcula as posições e dimensões relativas à imagem
-            const absoluteX = xmin / widthRatio;
-            const absoluteY = ymin / heightRatio;
-            const absoluteWidth = width / widthRatio;
-            const absoluteHeight = height / heightRatio;
-
+    
             // Desenhe a bounding box
-            context.strokeRect(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
+            context.strokeRect(xmin, ymin, width, height);
         });
     }
+    
+
 
     render() {
         const { error } = this.state;
 
         return (
             <div className='Geral'>
-    <div style={{padding:'10px'}}>
-    <button onClick={this.stopWebcam.bind(this)} className='Botao'>
-        Parar
-    </button>
-    </div>
-    <div className='video-container'>
-        <video ref={this.videoRef} autoPlay playsInline muted className='video'></video>
-        <canvas ref={this.canvasRef} className='video'></canvas>
-    </div>
-    {error && <div>Error: {error.message}</div>}
-    
-</div>
+                <div style={{padding:'10px'}}>
+                <button onClick={this.stopWebcam.bind(this)} className='Botao'>
+                    Parar
+                </button>
+                </div>
+                <div>
+                    Detections:
+                    <ul>
+                        {this.state.detections.map((detection, index) => (
+                            <li key={index}>{JSON.stringify(detection)}</li>
+                        ))}
+                    </ul>
+                </div>
+                <div className='video-container'>
+                    <video ref={this.videoRef} autoPlay playsInline muted className='video'></video>
+                    <canvas ref={this.canvasRef} className='video'></canvas>
+                </div>
+                {error && <div>Error: {error.message}</div>}
+                <RodaPe/>
+            </div>
         );
     }
 }

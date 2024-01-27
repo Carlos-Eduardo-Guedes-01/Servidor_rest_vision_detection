@@ -47,3 +47,9 @@
         font-size: 16pt;
     }
 }
+@media(max-width: 355px){
+    .tit{
+        font-size: 12pt;
+    }
+    
+}

@@ -3,7 +3,7 @@ body{
     overflow-x: hidden;
 }
 .Geral{
-    width: 90vw;
+    width: 100vw;
     height: 50vh;
     display: flex;
     flex-direction: column;
@@ -35,4 +35,24 @@ body{
 }
 .Botao:hover{
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
+}
+@media (max-width: 1004px){
+    .video{
+        height: 50vh;
+    }
+}
+@media (max-width: 1004px){
+    .video{
+        height: 45vh;
+    }
+}
+@media (max-width: 500px){
+    .video{
+        height: 35vh;
+    }
+}
+@media (max-width: 420px){
+    .video{
+        height: 30vh;
+    }
 }

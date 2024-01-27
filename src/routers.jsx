@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+    import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Home from './paginas/Home';
 import Padrao from './paginas/Padrao';
 import WebcamVideoProcessing from './paginas/Capture';
